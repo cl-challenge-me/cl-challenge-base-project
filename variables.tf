@@ -12,3 +12,8 @@ variable "services" {
   description = "List of APIs that should be enabled in the project"
   type        = list(string)
 }
+
+variable "billing_account" {
+  description = "Billing account to be used for the project"
+  type        = string
+}

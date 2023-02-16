@@ -9,7 +9,8 @@ resource "google_project" "project" {
     lower(var.name),
     random_id.id.dec
   )
-  folder_id = var.folder_id
+  folder_id       = var.folder_id
+  billing_account = var.billing_account
 }
 
 resource "google_project_service" "services" {
