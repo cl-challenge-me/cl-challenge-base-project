@@ -17,3 +17,13 @@ variable "billing_account" {
   description = "Billing account to be used for the project"
   type        = string
 }
+
+variable "region" {
+  description = "Region name"
+  type        = string
+}
+
+variable "ip_cidr_range" {
+  description = "IP CIDR range for the primary subnet"
+  type        = string
+}

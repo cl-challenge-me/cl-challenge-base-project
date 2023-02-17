@@ -11,6 +11,8 @@ resource "google_project" "project" {
   )
   folder_id       = var.folder_id
   billing_account = var.billing_account
+
+  auto_create_network = false
 }
 
 resource "google_project_service" "services" {
@@ -21,4 +23,19 @@ resource "google_project_service" "services" {
   depends_on = [
     google_project.project
   ]
+}
+
+resource "google_compute_network" "vpc1" {
+  project                 = google_project.project.project_id
+  name                    = "main"
+  auto_create_subnetworks = false
+}
+
+resource "google_compute_subnetwork" "subnets" {
+  project                  = google_project.project.project_id
+  name                     = "subnet1"
+  ip_cidr_range            = var.ip_cidr_range
+  region                   = var.region
+  network                  = google_compute_network.vpc1
+  private_ip_google_access = true
 }
