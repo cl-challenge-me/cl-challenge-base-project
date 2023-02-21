@@ -15,6 +15,14 @@ resource "google_project" "project" {
   auto_create_network = false
 }
 
+resource "google_compute_project_metadata" "default" {
+  project = google_project.project.project_id
+
+  metadata = {
+    enable-oslogin = "TRUE"
+  }
+}
+
 resource "google_project_service" "services" {
   project                    = google_project.project.project_id
   for_each                   = toset(var.services)
@@ -25,17 +33,20 @@ resource "google_project_service" "services" {
   ]
 }
 
-resource "google_compute_network" "vpc1" {
+resource "google_compute_network" "main" {
   project                 = google_project.project.project_id
   name                    = "main"
   auto_create_subnetworks = false
+  depends_on = [
+    google_project_service.services
+  ]
 }
 
-resource "google_compute_subnetwork" "subnets" {
+resource "google_compute_subnetwork" "main-subnet" {
   project                  = google_project.project.project_id
-  name                     = "subnet1"
+  name                     = "main-${var.region}-subnet"
   ip_cidr_range            = var.ip_cidr_range
   region                   = var.region
-  network                  = google_compute_network.vpc1
+  network                  = google_compute_network.main.id
   private_ip_google_access = true
 }
