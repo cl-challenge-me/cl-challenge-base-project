@@ -18,9 +18,9 @@ variable "billing_account" {
   type        = string
 }
 
-variable "region" {
-  description = "Region name"
-  type        = string
+variable "regions" {
+  description = "Regions list"
+  type        = list
 }
 
 variable "ip_cidr_range" {
