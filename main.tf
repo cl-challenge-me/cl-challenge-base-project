@@ -43,10 +43,10 @@ resource "google_compute_network" "main" {
 }
 
 resource "google_compute_subnetwork" "main-subnet" {
-  for_each = toset(var.regions)
+  for_each                 = toset(var.regions)
   project                  = google_project.project.project_id
   name                     = "main-${each.key}-subnet"
-  ip_cidr_range            = var.ip_cidr_range
+  ip_cidr_range            = var.ip_cidr_ranges[index(var.regions, each.key)]
   region                   = var.region
   network                  = google_compute_network.main.id
   private_ip_google_access = true

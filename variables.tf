@@ -20,10 +20,10 @@ variable "billing_account" {
 
 variable "regions" {
   description = "Regions list"
-  type        = list
+  type        = list(any)
 }
 
-variable "ip_cidr_range" {
-  description = "IP CIDR range for the primary subnet"
-  type        = string
+variable "ip_cidr_ranges" {
+  description = "IP CIDR range list for the subnets in regions"
+  type        = list(any)
 }
